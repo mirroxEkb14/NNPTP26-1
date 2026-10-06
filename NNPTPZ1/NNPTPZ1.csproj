@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\CommandLineParser.cs" />
+    <Compile Include="Config\RenderOptions.cs" />
     <Compile Include="Mathematics\ComplexNumber.cs" />
     <Compile Include="Mathematics\NewtonSolver.cs" />
     <Compile Include="Mathematics\Polynomial.cs" />

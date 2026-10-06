@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ColorMapperTests.cs" />
+    <Compile Include="CommandLineParserTests.cs" />
     <Compile Include="ComplexNumberTests.cs" />
     <Compile Include="FractalRendererTests.cs" />
     <Compile Include="NewtonSolverTests.cs" />
