@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComplexNumberTests.cs" />
+    <Compile Include="FractalRendererTests.cs" />
     <Compile Include="NewtonSolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
