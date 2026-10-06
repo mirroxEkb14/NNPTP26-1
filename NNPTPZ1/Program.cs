@@ -3,10 +3,6 @@ using NNPTPZ1.Mathematics;
 
 namespace NNPTPZ1
 {
-    /// <summary>
-    /// This program should produce Newton fractals.
-    /// See more at: https://en.wikipedia.org/wiki/Newton_fractal
-    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -18,13 +14,7 @@ namespace NNPTPZ1
             double ymin = opts.YMin;
             double ymax = opts.YMax;
 
-            // TODO: poly should be parameterised?
-            Polynomial p = new Polynomial();
-            p.Coefficients.Add(new ComplexNumber() { Re = 1 });
-            p.Coefficients.Add(ComplexNumber.Zero);
-            p.Coefficients.Add(ComplexNumber.Zero);
-            //p.Coefficients.Add(ComplexNumber.Zero);
-            p.Coefficients.Add(new ComplexNumber() { Re = 1 });
+            var p = PolynomialFactory.CreateDefault();
             Polynomial pd = p.Derive();
 
             Console.WriteLine(p);

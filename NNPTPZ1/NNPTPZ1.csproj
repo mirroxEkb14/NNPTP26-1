@@ -49,6 +49,7 @@
     <Compile Include="Mathematics\ComplexNumber.cs" />
     <Compile Include="Mathematics\NewtonSolver.cs" />
     <Compile Include="Mathematics\Polynomial.cs" />
+    <Compile Include="Mathematics\PolynomialFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\ColorMapper.cs" />
