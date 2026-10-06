@@ -58,10 +58,10 @@ namespace NNPTPZ1.Mathematics.Tests
         [TestMethod()]
         public void AddTestPolynome()
         {
-            Poly poly = new Mathematics.Poly();
-            poly.Coe.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
-            poly.Coe.Add(new ComplexNumber() { Re = 0, Imaginari = 0 });
-            poly.Coe.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
+            Polynomial poly = new Polynomial();
+            poly.Coefficients.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
+            poly.Coefficients.Add(new ComplexNumber() { Re = 0, Imaginari = 0 });
+            poly.Coefficients.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
             ComplexNumber result = poly.Eval(new ComplexNumber() { Re = 0, Imaginari = 0 });
             var expected = new ComplexNumber() { Re = 1, Imaginari = 0 };
             Assert.AreEqual(expected, result);

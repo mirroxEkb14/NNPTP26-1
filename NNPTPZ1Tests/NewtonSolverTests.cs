@@ -9,13 +9,13 @@ namespace NNPTPZ1.Mathematics.Tests
         public void Solve_Cubic_x3_minus_1_From_0_5_ConvergesTo1()
         {
             // p(x) = x^3 - 1
-            Poly poly = new Poly();
-            poly.Coe.Add(new ComplexNumber() { Re = -1, Imaginari = 0 });
-            poly.Coe.Add(ComplexNumber.Zero);
-            poly.Coe.Add(ComplexNumber.Zero);
-            poly.Coe.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
+            Polynomial poly = new Polynomial();
+            poly.Coefficients.Add(new ComplexNumber() { Re = -1, Imaginari = 0 });
+            poly.Coefficients.Add(ComplexNumber.Zero);
+            poly.Coefficients.Add(ComplexNumber.Zero);
+            poly.Coefficients.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
 
-            Poly pd = poly.Derive();
+            Polynomial pd = poly.Derive();
 
             ComplexNumber start = new ComplexNumber() { Re = 0.5, Imaginari = 0 };
 

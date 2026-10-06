@@ -16,7 +16,7 @@ namespace NNPTPZ1.Mathematics
 
     public static class NewtonSolver
     {
-        public static NewtonResult Solve(Poly p, Poly pd, ComplexNumber start, int maxIter = 100, double tol = 1e-6)
+        public static NewtonResult Solve(Polynomial p, Polynomial pd, ComplexNumber start, int maxIter = 100, double tol = 1e-6)
         {
             var x = start;
             double epsZero = 1e-12;
