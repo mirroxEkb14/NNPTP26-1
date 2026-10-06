@@ -76,7 +76,7 @@ namespace NNPTPZ1
             double xstep = (xmax - xmin) / intargs[0];
             double ystep = (ymax - ymin) / intargs[1];
 
-            List<ComplexNumber> koreny = new List<ComplexNumber>();
+            List<ComplexNumber> roots = new List<ComplexNumber>();
             // TODO: poly should be parameterised?
             Poly p = new Poly();
             p.Coe.Add(new ComplexNumber() { Re = 1 });
@@ -95,7 +95,7 @@ namespace NNPTPZ1
                 Color.Red, Color.Blue, Color.Green, Color.Yellow, Color.Orange, Color.Fuchsia, Color.Gold, Color.Cyan, Color.Magenta
             };
 
-            var maxid = 0;
+            var maxId = 0;
 
             // TODO: cleanup!!!
             // for every pixel in image...
@@ -106,53 +106,36 @@ namespace NNPTPZ1
                     // find "world" coordinates of pixel
                     double y = ymin + i * ystep;
                     double x = xmin + j * xstep;
-
-                    ComplexNumber ox = new ComplexNumber()
-                    {
-                        Re = x,
-                        Imaginari = y
-                    };
+                    ComplexNumber ox = new ComplexNumber() { Re = x, Imaginari = y };
 
                     if (ox.Re == 0)
-                        ox.Re = 0.0001;
+                        ox.Re = 1e-6;
                     if (ox.Imaginari == 0)
-                        ox.Imaginari = 0.0001f;
+                        ox.Imaginari = 1e-6;
 
-                    //Console.WriteLine(ox);
-
-                    // find solution of equation using newton's iteration
-                    float it = 0;
-                    for (int q = 0; q< 30; q++)
-                    {
-                        var diff = p.Eval(ox).Divide(pd.Eval(ox));
-                        ox = ox.Subtract(diff);
-
-                        //Console.WriteLine($"{q} {ox} -({diff})");
-                        if (Math.Pow(diff.Re, 2) + Math.Pow(diff.Imaginari, 2) >= 0.5)
-                        {
-                            q--;
-                        }
-                        it++;
-                    }
+                    var result = NewtonSolver.Solve(p, pd, ox, maxIter: 100, tol: 1e-6);
+                    ox = result.Root;
+                    int it = result.Iterations;
 
                     //Console.ReadKey();
 
                     // find solution root number
                     var known = false;
                     var id = 0;
-                    for (int w = 0; w <koreny.Count;w++)
+                    for (int w = 0; w < roots.Count; w++)
                     {
-                        if (Math.Pow(ox.Re- koreny[w].Re, 2) + Math.Pow(ox.Imaginari - koreny[w].Imaginari, 2) <= 0.01)
+                        if (Math.Pow(ox.Re - roots[w].Re, 2) + Math.Pow(ox.Imaginari - roots[w].Imaginari, 2) <= 0.01)
                         {
                             known = true;
                             id = w;
+                            break;
                         }
                     }
                     if (!known)
                     {
-                        koreny.Add(ox);
-                        id = koreny.Count;
-                        maxid = id + 1; 
+                        roots.Add(ox);
+                        id = roots.Count - 1;
+                        maxId = roots.Count;
                     }
 
                     // colorize pixel according to root number
@@ -178,7 +161,7 @@ namespace NNPTPZ1
             //    }
             //}
 
-                    bmp.Save(output ?? "../../../out.png");
+            bmp.Save(output ?? "../../../out.png");
             //Console.ReadKey();
         }
     }
