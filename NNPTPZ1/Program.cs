@@ -1,18 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Drawing;
-using System.Drawing.Design;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Drawing.Printing;
-using System.Drawing.Text;
-using System.Drawing.Drawing2D;
-using System.Linq.Expressions;
-using System.Threading;
 using NNPTPZ1.Mathematics;
 
 namespace NNPTPZ1
@@ -25,18 +13,60 @@ namespace NNPTPZ1
     {
         static void Main(string[] args)
         {
+            if (args == null || args.Length == 0)
+            {
+                Console.WriteLine("No arguments provided. Using default parameters.");
+                args = new string[] { "800", "600", "-1.5", "1.5", "-1", "1", "out.png" };
+            }
+
+            if (args.Length < 7)
+            {
+                Console.WriteLine("Usage: NNPTPZ1 <width> <height> <xmin> <xmax> <ymin> <ymax> <output>");
+                Console.WriteLine("Not enough arguments provided ({0}). Missing values will be filled with defaults.", args.Length);
+                var defaults = new string[] { "800", "600", "-1.5", "1.5", "-1", "1", "out.png" };
+                var merged = new string[7];
+                for (int i = 0; i < 7; i++)
+                    merged[i] = i < args.Length ? args[i] : defaults[i];
+                args = merged;
+            }
+
             int[] intargs = new int[2];
-            for (int i = 0; i < intargs.Length; i++)
+            if (!int.TryParse(args[0], out intargs[0]))
             {
-                intargs[i] = int.Parse(args[i]);
+                Console.WriteLine("Invalid width '{0}', using default 800.", args[0]);
+                intargs[0] = 800;
             }
+            if (!int.TryParse(args[1], out intargs[1]))
+            {
+                Console.WriteLine("Invalid height '{0}', using default 600.", args[1]);
+                intargs[1] = 600;
+            }
+
             double[] doubleargs = new double[4];
-            for (int i = 0; i < doubleargs.Length; i++)
+            var culture = System.Globalization.CultureInfo.InvariantCulture;
+            if (!double.TryParse(args[2], System.Globalization.NumberStyles.Float, culture, out doubleargs[0]))
             {
-                doubleargs[i] = double.Parse(args[i + 2]);
+                Console.WriteLine("Invalid xmin '{0}', using default -1.5.", args[2]);
+                doubleargs[0] = -1.5;
             }
-            string output = args[6];
-            // TODO: add parameters from args?
+            if (!double.TryParse(args[3], System.Globalization.NumberStyles.Float, culture, out doubleargs[1]))
+            {
+                Console.WriteLine("Invalid xmax '{0}', using default 1.5.", args[3]);
+                doubleargs[1] = 1.5;
+            }
+            if (!double.TryParse(args[4], System.Globalization.NumberStyles.Float, culture, out doubleargs[2]))
+            {
+                Console.WriteLine("Invalid ymin '{0}', using default -1.", args[4]);
+                doubleargs[2] = -1.0;
+            }
+            if (!double.TryParse(args[5], System.Globalization.NumberStyles.Float, culture, out doubleargs[3]))
+            {
+                Console.WriteLine("Invalid ymax '{0}', using default 1.", args[5]);
+                doubleargs[3] = 1.0;
+            }
+
+            string output = args[6] ?? "out.png";
+
             Bitmap bmp = new Bitmap(intargs[0], intargs[1]);
             double xmin = doubleargs[0];
             double xmax = doubleargs[1];
@@ -69,9 +99,9 @@ namespace NNPTPZ1
 
             // TODO: cleanup!!!
             // for every pixel in image...
-            for (int i = 0; i < intargs[0]; i++)
+            for (int i = 0; i < intargs[1]; i++)
             {
-                for (int j = 0; j < intargs[1]; j++)
+                for (int j = 0; j < intargs[0]; j++)
                 {
                     // find "world" coordinates of pixel
                     double y = ymin + i * ystep;
