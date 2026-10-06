@@ -49,6 +49,7 @@
     <Compile Include="Mathematics\Polynomial.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\ColorMapper.cs" />
     <Compile Include="Rendering\FractalRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
