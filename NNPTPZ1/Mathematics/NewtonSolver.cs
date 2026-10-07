@@ -27,7 +27,7 @@ namespace NNPTPZ1.Mathematics
                 var dfxAbs = dfx.GetAbS();
                 if (dfxAbs < epsZero)
                 {
-                    x = x.Add(new ComplexNumber() { Re = tol, Imaginari = tol });
+                    x = x.Add(new ComplexNumber() { Real = tol, Imaginary = tol });
                     continue;
                 }
 

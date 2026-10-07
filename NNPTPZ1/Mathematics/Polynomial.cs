@@ -16,7 +16,7 @@ namespace NNPTPZ1.Mathematics
             for (int q = 1; q < Coefficients.Count; q++)
             {
                 // derivative coefficient: q * Coefficients[q]
-                p.Coefficients.Add(Coefficients[q].Multiply(new ComplexNumber() { Re = q }));
+                p.Coefficients.Add(Coefficients[q].Multiply(new ComplexNumber() { Real = q }));
             }
 
             return p;
@@ -24,7 +24,7 @@ namespace NNPTPZ1.Mathematics
 
         public ComplexNumber Eval(double x)
         {
-            return Eval(new ComplexNumber() { Re = x, Imaginari = 0 });
+            return Eval(new ComplexNumber() { Real = x, Imaginary = 0 });
         }
 
         public ComplexNumber Eval(ComplexNumber x)

@@ -4,14 +4,14 @@ namespace NNPTPZ1.Mathematics
 {
     public class ComplexNumber : IEquatable<ComplexNumber>
     {
-        public double Re { get; set; }
+        public double Real { get; set; }
 
-        public double Imaginari { get; set; }
+        public double Imaginary { get; set; }
 
         public bool Equals(ComplexNumber other)
         {
             if (other is null) return false;
-            return other.Re == Re && other.Imaginari == Imaginari;
+            return other.Real == Real && other.Imaginary == Imaginary;
         }
 
         public override bool Equals(object obj) => Equals(obj as ComplexNumber);
@@ -21,13 +21,13 @@ namespace NNPTPZ1.Mathematics
             unchecked
             {
                 int hash = 17;
-                hash = hash * 23 + Re.GetHashCode();
-                hash = hash * 23 + Imaginari.GetHashCode();
+                hash = hash * 23 + Real.GetHashCode();
+                hash = hash * 23 + Imaginary.GetHashCode();
                 return hash;
             }
         }
 
-        public static readonly ComplexNumber Zero = new ComplexNumber() { Re = 0, Imaginari = 0 };
+        public static readonly ComplexNumber Zero = new ComplexNumber() { Real = 0, Imaginary = 0 };
 
         public ComplexNumber Multiply(ComplexNumber b)
         {
@@ -36,14 +36,14 @@ namespace NNPTPZ1.Mathematics
             {
                 // Formula for multiplication used:
                 // (aRe + aIm*i)*(bRe + bIm*i) = (aRe*bRe - aIm*bIm) + (aRe*bIm + aIm*bRe)i
-                Re = a.Re * b.Re - a.Imaginari * b.Imaginari,
-                Imaginari = a.Re * b.Imaginari + a.Imaginari * b.Re
+                Real = a.Real * b.Real - a.Imaginary * b.Imaginary,
+                Imaginary = a.Real * b.Imaginary + a.Imaginary * b.Real
             };
         }
 
         public double GetAbS()
         {
-            return Math.Sqrt(Re * Re + Imaginari * Imaginari);
+            return Math.Sqrt(Real * Real + Imaginary * Imaginary);
         }
 
         public ComplexNumber Add(ComplexNumber b)
@@ -51,14 +51,14 @@ namespace NNPTPZ1.Mathematics
             var a = this;
             return new ComplexNumber()
             {
-                Re = a.Re + b.Re,
-                Imaginari = a.Imaginari + b.Imaginari
+                Real = a.Real + b.Real,
+                Imaginary = a.Imaginary + b.Imaginary
             };
         }
 
         public double GetAngleInDegrees()
         {
-            return Math.Atan2(Imaginari, Re);
+            return Math.Atan2(Imaginary, Real);
         }
 
         public ComplexNumber Subtract(ComplexNumber b)
@@ -66,14 +66,14 @@ namespace NNPTPZ1.Mathematics
             var a = this;
             return new ComplexNumber()
             {
-                Re = a.Re - b.Re,
-                Imaginari = a.Imaginari - b.Imaginari
+                Real = a.Real - b.Real,
+                Imaginary = a.Imaginary - b.Imaginary
             };
         }
 
         public override string ToString()
         {
-            return $"({Re} + {Imaginari}i)";
+            return $"({Real} + {Imaginary}i)";
         }
 
         internal ComplexNumber Divide(ComplexNumber b)
@@ -82,20 +82,20 @@ namespace NNPTPZ1.Mathematics
             // (aRe + aIm*i) / (bRe + bIm*i)
             // ((aRe + aIm*i) * (bRe - bIm*i)) / ((bRe + bIm*i) * (bRe - bIm*i))
             // bRe*bRe - bIm*bIm*i*i
-            var tmp = this.Multiply(new ComplexNumber() { Re = b.Re, Imaginari = -b.Imaginari });
-            var tmp2 = b.Re * b.Re + b.Imaginari * b.Imaginari;
+            var tmp = this.Multiply(new ComplexNumber() { Real = b.Real, Imaginary = -b.Imaginary });
+            var tmp2 = b.Real * b.Real + b.Imaginary * b.Imaginary;
 
             return new ComplexNumber()
             {
-                Re = tmp.Re / tmp2,
-                Imaginari = tmp.Imaginari / tmp2
+                Real = tmp.Real / tmp2,
+                Imaginary = tmp.Imaginary / tmp2
             };
         }
 
         public bool ApproximatelyEquals(ComplexNumber other, double eps = 1e-6)
         {
             if (other is null) return false;
-            return Math.Abs(Re - other.Re) <= eps && Math.Abs(Imaginari - other.Imaginari) <= eps;
+            return Math.Abs(Real - other.Real) <= eps && Math.Abs(Imaginary - other.Imaginary) <= eps;
         }
     }
 }

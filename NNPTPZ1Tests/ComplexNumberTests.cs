@@ -11,20 +11,20 @@ namespace NNPTPZ1.Mathematics.Tests
         {
             ComplexNumber a = new ComplexNumber()
             {
-                Re = 10,
-                Imaginari = 20
+                Real = 10,
+                Imaginary = 20
             };
             ComplexNumber b = new ComplexNumber()
             {
-                Re = 1,
-                Imaginari = 2
+                Real = 1,
+                Imaginary = 2
             };
 
             ComplexNumber actual = a.Add(b);
             ComplexNumber shouldBe = new ComplexNumber()
             {
-                Re = 11,
-                Imaginari = 22
+                Real = 11,
+                Imaginary = 22
             };
 
             Assert.AreEqual(shouldBe, actual);
@@ -38,11 +38,11 @@ namespace NNPTPZ1.Mathematics.Tests
 
             a = new ComplexNumber()
             {
-                Re = 1,
-                Imaginari = -1
+                Real = 1,
+                Imaginary = -1
             };
-            b = new ComplexNumber() { Re = 0, Imaginari = 0 };
-            shouldBe = new ComplexNumber() { Re = 1, Imaginari = -1 };
+            b = new ComplexNumber() { Real = 0, Imaginary = 0 };
+            shouldBe = new ComplexNumber() { Real = 1, Imaginary = -1 };
             actual = a.Add(b);
             Assert.AreEqual(shouldBe, actual);
 
@@ -59,17 +59,17 @@ namespace NNPTPZ1.Mathematics.Tests
         public void AddTestPolynome()
         {
             Polynomial poly = new Polynomial();
-            poly.Coefficients.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
-            poly.Coefficients.Add(new ComplexNumber() { Re = 0, Imaginari = 0 });
-            poly.Coefficients.Add(new ComplexNumber() { Re = 1, Imaginari = 0 });
-            ComplexNumber result = poly.Eval(new ComplexNumber() { Re = 0, Imaginari = 0 });
-            var expected = new ComplexNumber() { Re = 1, Imaginari = 0 };
+            poly.Coefficients.Add(new ComplexNumber() { Real = 1, Imaginary = 0 });
+            poly.Coefficients.Add(new ComplexNumber() { Real = 0, Imaginary = 0 });
+            poly.Coefficients.Add(new ComplexNumber() { Real = 1, Imaginary = 0 });
+            ComplexNumber result = poly.Eval(new ComplexNumber() { Real = 0, Imaginary = 0 });
+            var expected = new ComplexNumber() { Real = 1, Imaginary = 0 };
             Assert.AreEqual(expected, result);
-            result = poly.Eval(new ComplexNumber() { Re = 1, Imaginari = 0 });
-            expected = new ComplexNumber() { Re = 2, Imaginari = 0 };
+            result = poly.Eval(new ComplexNumber() { Real = 1, Imaginary = 0 });
+            expected = new ComplexNumber() { Real = 2, Imaginary = 0 };
             Assert.AreEqual(expected, result);
-            result = poly.Eval(new ComplexNumber() { Re = 2, Imaginari = 0 });
-            expected = new ComplexNumber() { Re = 5.0000000000, Imaginari = 0 };
+            result = poly.Eval(new ComplexNumber() { Real = 2, Imaginary = 0 });
+            expected = new ComplexNumber() { Real = 5.0000000000, Imaginary = 0 };
             Assert.AreEqual(expected, result);
 
             var r2 = poly.ToString();

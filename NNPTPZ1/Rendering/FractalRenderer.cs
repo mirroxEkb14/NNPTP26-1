@@ -29,10 +29,10 @@ namespace NNPTPZ1.Rendering
                 {
                     double y = ymin + i * ystep;
                     double x = xmin + j * xstep;
-                    ComplexNumber ox = new ComplexNumber() { Re = x, Imaginari = y };
+                    ComplexNumber ox = new ComplexNumber() { Real = x, Imaginary = y };
 
-                    if (ox.Re == 0) ox.Re = 1e-6;
-                    if (ox.Imaginari == 0) ox.Imaginari = 1e-6;
+                    if (ox.Real == 0) ox.Real = 1e-6;
+                    if (ox.Imaginary == 0) ox.Imaginary = 1e-6;
 
                     var result = NewtonSolver.Solve(p, pd, ox, maxIter: maxIter, tol: tol);
                     ox = result.Root;
@@ -42,7 +42,7 @@ namespace NNPTPZ1.Rendering
                     var id = 0;
                     for (int w = 0; w < roots.Count; w++)
                     {
-                        if (Math.Pow(ox.Re - roots[w].Re, 2) + Math.Pow(ox.Imaginari - roots[w].Imaginari, 2) <= 0.01)
+                        if (Math.Pow(ox.Real - roots[w].Real, 2) + Math.Pow(ox.Imaginary - roots[w].Imaginary, 2) <= 0.01)
                         {
                             known = true;
                             id = w;

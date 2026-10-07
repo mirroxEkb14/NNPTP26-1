@@ -14,8 +14,8 @@ namespace NNPTPZ1Tests
         {
             // p(x) = x - 1  => coefficients [-1, 1]
             var p = new Polynomial();
-            p.Coefficients.Add(new ComplexNumber { Re = -1, Imaginari = 0 });
-            p.Coefficients.Add(new ComplexNumber { Re = 1, Imaginari = 0 });
+            p.Coefficients.Add(new ComplexNumber { Real = -1, Imaginary = 0 });
+            p.Coefficients.Add(new ComplexNumber { Real = 1, Imaginary = 0 });
             var pd = p.Derive();
 
             var tmp = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".png");
