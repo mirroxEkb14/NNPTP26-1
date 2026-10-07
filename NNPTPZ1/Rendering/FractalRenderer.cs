@@ -7,60 +7,81 @@ namespace NNPTPZ1.Rendering
 {
     public static class FractalRenderer
     {
-        public static void Render(Polynomial p, Polynomial pd, int width, int height,
-            double xmin, double xmax, double ymin, double ymax, string output,
+        public static void Render(Polynomial p, Polynomial pd, Config.RenderOptions opts,
             int maxIter = 100, double tol = 1e-6)
         {
             if (p == null) throw new ArgumentNullException(nameof(p));
             if (pd == null) throw new ArgumentNullException(nameof(pd));
+
+            var width = opts.Width;
+            var height = opts.Height;
+            var xmin = opts.XMin;
+            var xmax = opts.XMax;
+            var ymin = opts.YMin;
+            var ymax = opts.YMax;
 
             Bitmap bmp = new Bitmap(width, height);
 
             double xstep = (xmax - xmin) / width;
             double ystep = (ymax - ymin) / height;
 
-            List<ComplexNumber> roots = new List<ComplexNumber>();
-
             var mapper = new ColorMapper();
+            var roots = new List<ComplexNumber>();
 
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    double y = ymin + i * ystep;
-                    double x = xmin + j * xstep;
-                    ComplexNumber ox = new ComplexNumber() { Real = x, Imaginary = y };
+                    var start = PixelToComplex(j, i, xmin, ymin, xstep, ystep);
+                    EnsureNonZero(ref start);
 
-                    if (ox.Real == 0) ox.Real = 1e-6;
-                    if (ox.Imaginary == 0) ox.Imaginary = 1e-6;
-
-                    var result = NewtonSolver.Solve(p, pd, ox, maxIter: maxIter, tol: tol);
-                    ox = result.Root;
-                    int it = result.Iterations;
-
-                    var known = false;
-                    var id = 0;
-                    for (int w = 0; w < roots.Count; w++)
-                    {
-                        if (Math.Pow(ox.Real - roots[w].Real, 2) + Math.Pow(ox.Imaginary - roots[w].Imaginary, 2) <= 0.01)
-                        {
-                            known = true;
-                            id = w;
-                            break;
-                        }
-                    }
-                    if (!known)
-                    {
-                        roots.Add(ox);
-                        id = roots.Count - 1;
-                    }
-
-                    var vv = mapper.MapColor(id, it);
-                    bmp.SetPixel(j, i, vv);
+                    var (id, iterations) = ComputeRootIndex(p, pd, start, roots, tol, maxIter);
+                    PaintPixel(bmp, j, i, id, iterations, mapper);
                 }
             }
 
-            bmp.Save(output ?? "../../../out.png");
+            bmp.Save(opts.Output ?? "../../../out.png");
+        }
+
+        private static (int id, int iterations) ComputeRootIndex(Polynomial p, Polynomial pd, ComplexNumber start, List<ComplexNumber> roots, double tol, int maxIter)
+        {
+            var result = NewtonSolver.Solve(p, pd, start, maxIter: maxIter, tol: tol);
+            var root = result.Root;
+            var iterations = result.Iterations;
+            int id = FindOrAddRoot(roots, root, 0.01);
+            return (id, iterations);
+        }
+
+        private static void PaintPixel(Bitmap bmp, int x, int y, int rootIndex, int iterations, ColorMapper mapper)
+        {
+            var color = mapper.MapColor(rootIndex, iterations);
+            bmp.SetPixel(x, y, color);
+        }
+
+        private static ComplexNumber PixelToComplex(int x, int y, double xmin, double ymin, double xstep, double ystep)
+        {
+            double cx = xmin + x * xstep;
+            double cy = ymin + y * ystep;
+            return new ComplexNumber() { Real = cx, Imaginary = cy };
+        }
+
+        private static void EnsureNonZero(ref ComplexNumber z)
+        {
+            if (z.Real == 0) z.Real = 1e-6;
+            if (z.Imaginary == 0) z.Imaginary = 1e-6;
+        }
+
+        private static int FindOrAddRoot(List<ComplexNumber> roots, ComplexNumber root, double tol)
+        {
+            for (int i = 0; i < roots.Count; i++)
+            {
+                var dx = root.Real - roots[i].Real;
+                var dy = root.Imaginary - roots[i].Imaginary;
+                if (dx * dx + dy * dy <= tol * tol)
+                    return i;
+            }
+            roots.Add(root);
+            return roots.Count - 1;
         }
     }
 }

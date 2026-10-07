@@ -20,7 +20,7 @@ namespace NNPTPZ1
             Console.WriteLine(p);
             Console.WriteLine(pd);
 
-            Rendering.FractalRenderer.Render(p, pd, opts.Width, opts.Height, xmin, xmax, ymin, ymax, opts.Output, maxIter: opts.MaxIter, tol: opts.Tolerance);
+            Rendering.FractalRenderer.Render(p, pd, opts, maxIter: opts.MaxIter, tol: opts.Tolerance);
         }
     }
 }

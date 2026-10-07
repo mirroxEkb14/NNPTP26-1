@@ -21,7 +21,8 @@ namespace NNPTPZ1Tests
             var tmp = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N") + ".png");
             try
             {
-                FractalRenderer.Render(p, pd, width: 8, height: 8, xmin: -1, xmax: 1, ymin: -1, ymax: 1, output: tmp, maxIter: 10, tol: 1e-6);
+                var opts = new NNPTPZ1.Config.RenderOptions { Width = 8, Height = 8, XMin = -1, XMax = 1, YMin = -1, YMax = 1, Output = tmp };
+                FractalRenderer.Render(p, pd, opts, maxIter: 10, tol: 1e-6);
 
                 // Assert: file exists AND '.png' signature
                 Assert.IsTrue(File.Exists(tmp), "Output file should exist");
