@@ -24,7 +24,7 @@ namespace NNPTPZ1.Mathematics
             {
                 var fx = p.Eval(x);
                 var dfx = pd.Eval(x);
-                var dfxAbs = dfx.GetAbS();
+                var dfxAbs = dfx.GetAbs();
                 if (dfxAbs < epsZero)
                 {
                     x = x.Add(new ComplexNumber() { Real = tol, Imaginary = tol });
@@ -34,7 +34,7 @@ namespace NNPTPZ1.Mathematics
                 var diff = fx.Divide(dfx);
                 x = x.Subtract(diff);
 
-                if (diff.GetAbS() <= tol)
+                if (diff.GetAbs() <= tol)
                     return new NewtonResult(x, iter + 1, true);
             }
 
