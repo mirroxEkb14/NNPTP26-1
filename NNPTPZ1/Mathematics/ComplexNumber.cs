@@ -58,7 +58,7 @@ namespace NNPTPZ1.Mathematics
 
         public double GetAngleInDegrees()
         {
-            return Math.Atan2(Imaginary, Real);
+            return Math.Atan2(Imaginary, Real) * (180.0 / Math.PI);
         }
 
         public ComplexNumber Subtract(ComplexNumber b)
